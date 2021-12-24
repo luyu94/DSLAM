@@ -249,10 +249,10 @@ cv::Mat Tracking::GrabImageRGBD(const cv::Mat &imRGB,const cv::Mat &imD, cv::Mat
 
     Track();   //原ORB跟踪
 
-    if (!mCurrentFrame.mTcw.empty())
-    {
-        mGeometry.InpaintFrames(mCurrentFrame, mImGray, imDepth, imRGBOut, imMask);
-    }
+    // if (!mCurrentFrame.mTcw.empty())
+    // {
+    //     mGeometry.InpaintFrames(mCurrentFrame, mImGray, imDepth, imRGBOut, imMask);
+    // }
 
     mGeometry.GeometricModelUpdateDB(mCurrentFrame);    //更新几何模型数据库
 

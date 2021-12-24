@@ -65,7 +65,7 @@ cv::Mat SegmentDynObject::GetSegmentation(cv::Mat &image, std::string dir, std::
     //
     //cout << "值" << seg.empty() << endl;
     if(seg.empty()){   // if Mat::total() is 0 or if Mat::data is NULL，rturn true
-        cout << "值" << seg.empty() << endl;
+        //cout << "值" << seg.empty() << endl;
         PyObject* py_image = cvt->toNDArray(image.clone());
         assert(py_image != NULL);
         PyObject* py_mask_image = PyObject_CallMethod(this->net, const_cast<char*>(this->get_dyn_seg.c_str()),"(O)", py_image);

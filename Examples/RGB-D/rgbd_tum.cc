@@ -121,7 +121,7 @@ int main(int argc, char **argv)
             //maskRCNN数值在0-1，动态物体像素值是1
             maskRCNN = MaskNet->GetSegmentation(imRGB, string(argv[5]), vstrImageFilenamesRGB[ni].replace(0,4,""));
             cv::Mat maskRCNNdil = maskRCNN.clone();
-            cout << "step 3" << endl;
+            //cout << "step 3" << endl;
             cv::dilate(maskRCNN, maskRCNNdil, kernel);  // 读取mask结果出错
             mask = mask - maskRCNNdil;  //求差，1表示静态物体
         }

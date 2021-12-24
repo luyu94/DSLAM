@@ -84,6 +84,7 @@ public:
     Geometry();
     ~Geometry() = default;
     void GeometricModelCorrection(const ORB_SLAM2::Frame &currentFrame, cv::Mat &imDepth, cv::Mat &mask);
+    //inpaint
     void InpaintFrames(const ORB_SLAM2::Frame &currentFrame, cv::Mat &imGray, cv::Mat &imDepth, cv::Mat &imRGB, cv::Mat &mask);
     void GeometricModelUpdateDB(const ORB_SLAM2::Frame &mCurrentFrame);
 };
