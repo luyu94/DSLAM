@@ -230,29 +230,31 @@ cv::Mat Tracking::GrabImageRGBD(const cv::Mat &imRGB,const cv::Mat &imD, cv::Mat
     if((fabs(mDepthMapFactor-1.0f)>1e-5) || imDepth.type()!=CV_32F)
         imDepth.convertTo(imDepth,CV_32F,mDepthMapFactor);
 
+    //删除落在msak边界上的orb特征
     mCurrentFrame = Frame(mImGray,imDepth,imMask,_imRGB,timestamp,mpORBextractorLeft,mpORBVocabulary,mK,mDistCoef,mbf,mThDepth);
 
-    LightTrack();
+    LightTrack();   //低成本的tracking模块
 
     imRGBOut = _imRGB;
 
 
-
+    //多视图几何识别动态物体
     if (!mCurrentFrame.mTcw.empty())
     {
         mGeometry.GeometricModelCorrection(mCurrentFrame,imDepth,imMask);
     }
 
-    mCurrentFrame = Frame(mImGray,imDepth,imMask,imRGBOut,timestamp,mpORBextractorLeft,mpORBVocabulary,mK,mDistCoef,mbf,mThDepth);
+    mCurrentFrame = Frame(mImGray,imDepth,imMask,imRGBOut,timestamp,mpORBextractorLeft,
+                          mpORBVocabulary,mK,mDistCoef,mbf,mThDepth);
 
-    Track();
+    Track();   //原ORB跟踪
 
     if (!mCurrentFrame.mTcw.empty())
     {
         mGeometry.InpaintFrames(mCurrentFrame, mImGray, imDepth, imRGBOut, imMask);
     }
 
-    mGeometry.GeometricModelUpdateDB(mCurrentFrame);
+    mGeometry.GeometricModelUpdateDB(mCurrentFrame);    //更新几何模型数据库
 
     imDOut = imDepth;
     imDepth.convertTo(imDOut,CV_16U,1./mDepthMapFactor);
